@@ -1,0 +1,41 @@
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+            <title>Start Puzzle Game</title>
+        </head>
+        <body bgcolor="#808080">
+            <center>
+                    <img src="./images/napoleone.jpg" alt="Napoleone a cavallo">
+                <h3>Benvenuti nel gioco del puzzle!</h3>
+                <br>
+                <h3>Inserire i nomi dei 2 giocatori:</h3>
+                <br>
+                <!-- mainPage is the main page of the game, which also processes players' name -->
+                <form action="mainPage.php" method="post">
+                    <table align="center">
+                        <tr>
+                            <td>
+                                <label for="user1">Primo utente</label>
+                            </td>
+                            <td>
+                                <input type="text" id="user1" name="user1" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="user2">Secondo utente</label>
+                            </td>
+                            <td>
+                                <input type="text" id="user2" name="user2" required>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <input type="submit" name="submit" value="Nuova partita">
+                </form>
+                <br>
+                <h3>Buon divertimento!</h3>
+            </center>
+        </body>
+    </html>
