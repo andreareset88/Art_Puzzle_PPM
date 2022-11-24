@@ -97,6 +97,40 @@ var puzzleGame = {
             //       2) blocco della partita
             //       3) aggiungere info nella descrizione finale
             //       4) test schermi
+            //       5) Ricontrollare immagini sfalsate: integrare qui php4x4Backup.html
+
+            // GESTIONE DRAG & DROP ALL'INTERNO DELLA TABELLA FILLABLE DEL GIOCATORE 1
+
+            fillableLi.ondragstart = (event) => event.dataTransfer.setData('data', event.target.id);
+            fillableLi.ondragover = (event) => event.preventDefault();
+            fillableLi.ondrop = (event) => {
+                let source = helper.doc(event.dataTransfer.getData('data'));
+                let destination = helper.doc(event.target.id);
+                let p = destination.parentNode;
+
+                if (source && destination && p) {
+                    let temp = destination.nextSibling;
+                    p.insertBefore(destination, source);
+                    p.insertBefore(source, temp);
+
+                    /*let data = event.dataTransfer.getData('data');
+                    event.target.appendChild(document.getElementById(data));*/
+
+
+                    let valuesId = Array.from(helper.doc('sortable').children).map(x => x.id);
+                    var now = new Date().getTime();
+                    let incrementedStep = ++puzzleGame.stepsNumber;
+                    helper.doc('stepPanel').innerHTML = incrementedStep;
+
+                    if (isImageSorted(valuesId)) {
+                        helper.doc('imageTitle').innerHTML = image.title;
+                        helper.doc('showEndGame').innerHTML = helper.doc('endGame').innerHTML;
+                        helper.doc('timerEnd').innerHTML = (parseInt((now - puzzleGame.startTime) / 1000, 10));
+                        helper.doc('stepEnd').innerHTML = incrementedStep;
+                        document.getElementById('sortable').setAttribute('style', 'display:none');
+                    }
+                }
+            };
 
             sortableLi.ondragstart = (event) => event.dataTransfer.setData('data', event.target.id);
             fillableLi.ondragover = (event) => event.preventDefault();
@@ -128,6 +162,17 @@ var puzzleGame = {
                     }
                 }
             };
+
+
+
+
+
+
+
+
+
+
+
 
 
 

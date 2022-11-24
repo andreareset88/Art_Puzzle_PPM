@@ -76,7 +76,8 @@ h3 {
 }
 
 body {
-    font-family: 'Segoe UI', Calibri, Arial;
+    /*font-family: 'Segoe UI', Calibri, Arial;*/
+    font-family: "Copperplate Gothic Bold", fantasy;
     background-color: #808080;
     margin: 0;
 }
@@ -232,6 +233,7 @@ body {
     background-color: #f5f2f2;
     border: 1px solid #cce;
     display: inline;
+    font-family: cursive;
     font-size: 14px;
     height: auto;
     width: auto;

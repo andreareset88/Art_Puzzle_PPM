@@ -77,10 +77,10 @@
     </div>
 
     <div id="numStepBox">
-        Steps primo giocatore: <span id="stepPanel"></span>
+        Steps eseguiti da <?php echo strtoupper($_POST['user1']) ?>: <span id="stepPanel"></span>
     </div>
     <div id="numStepBoxSecondPlayer">
-        Steps secondo giocatore: <span id="stepPanelSecondPlayer"></span>
+        Steps eseguiti da <?php echo strtoupper($_POST['user2']) ?>: <span id="stepPanelSecondPlayer"></span>
     </div>
 
     <div id="buttons">
@@ -123,9 +123,9 @@
 
     <script>
         var images = [
-            {src: 'images/David.jpg', title: 'David di Michelangelo'},
+            {src: 'images/David-Resized.jpg', title: 'David di Michelangelo'},
             {src: 'images/statue-of-libertyResized.jpg', title: 'Statua della Libertà'},
-            {src: 'images/napoleone.jpg', title: 'Napoleone valica le Alpi'}
+            {src: 'images/napoleone-Resized.jpg', title: 'Napoleone valica le Alpi'}
         ];
 
         window.onload = function () {
