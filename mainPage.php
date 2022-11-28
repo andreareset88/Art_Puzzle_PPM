@@ -20,7 +20,6 @@
     <hr/>
 
     <div id="mainPanel" style="padding: 5px; display: none">
-        <h3 id="imageTitle"></h3>
         <div id="player1">
 
             <ul id="fillable" class="fillable">
@@ -56,7 +55,9 @@
             <ul id="sortable" class="sortable">
             </ul>
 
-            <!--            <div class="vl"></div>-->
+            <span id="showEndGame" class="popupText">
+            </span>
+
         </div>
         <div id="player2">
             <div id="originalImageBoxSecondPlayer">
@@ -68,6 +69,10 @@
 
             <ul id="sortableSecondPlayer" class="sortableSecondPlayer">
             </ul>
+
+            <span id="showEndGame" class="popupText">
+            </span>
+
         </div>
 
     </div>
@@ -108,17 +113,17 @@
 
             <h2 style="text-align: center">Game Over</h2>
             <br/>
+            <span id="winner"></span> vince la partita!
+            <br/>
             L'immagine è stata ricostruita correttamente!
             <br/>
             Titolo: <span id="imageTitle"></span>
+            <br/>
             Steps: <span id="stepEnd"></span>
             <br/>
             Tempo impiegato: <span id="timerEnd"></span> secondi
         </div>
     </div>
-
-    <span id="showEndGame" class="popupText">
-    </span>
 
 
     <script>
@@ -129,7 +134,7 @@
         ];
 
         window.onload = function () {
-            puzzleGame.startGame(images, 4);
+            puzzleGame.startGame(images, 4, "<?php echo strtoupper($_POST['user1']) ?>", "<?php echo strtoupper($_POST['user2']) ?>");
         }
 
 
@@ -146,29 +151,8 @@
             popup.classList.toggle("show");
         }
 
-
-
     </script>
 </div>
-
-<?php
-/*        echo "<center><h2>" . "Benvenuti " . strtoupper($_POST['user1']) . " e " . strtoupper($_POST['user2']) . "</center></h2>";
-        */?>
-
-<!--<img src="./images/David.jpg" alt="David di Michelangelo" width="250" height="270">
-<img src="./images/Libertà.jpg" alt="Statua della Libertà" width="250" height="270">-->
-
-<!--        <div id="test"></div>-->
-
-<!--<script type="text/javascript">
-
-    function showRules() {
-        var popup = document.getElementById("popupRules");
-        popup.classList.toggle("show");
-    }
-
-
-</script>-->
 
 </body>
 </html>

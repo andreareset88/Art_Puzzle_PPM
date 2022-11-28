@@ -5,8 +5,8 @@ var puzzleGame = {
     stepsNumberSecondPlayer: 0,
     startTime: new Date().getTime(),
 
-    startGame: function (images, gridSize) {
-        this.setImage(images, gridSize);
+    startGame: function (images, gridSize, user1, user2) {
+        this.setImage(images, gridSize, user1, user2);
         helper.doc('mainPanel').style.display = 'block';
         helper.shuffle('sortable');
         helper.shuffle('sortableSecondPlayer');
@@ -24,7 +24,7 @@ var puzzleGame = {
         timer = setTimeout(puzzleGame.clock, 1000);
     },
 
-    setImage: function (images, gridSize = 4) {
+    setImage: function (images, gridSize = 4, user1, user2) {
         var percentage = 100 / (gridSize - 1);
         var image = images[Math.floor(Math.random() * images.length)];
         var imageSecondPlayer = images[Math.floor(Math.random() * images.length)];
@@ -93,44 +93,9 @@ var puzzleGame = {
 
             sortableLiSecondPlayer.setAttribute('draggable', 'true');
 
-            // TODO: 1) Spostamento all'interno di fillable
-            //       2) blocco della partita
-            //       3) aggiungere info nella descrizione finale
-            //       4) test schermi
-            //       5) Ricontrollare immagini sfalsate: integrare qui php4x4Backup.html
-
-            // GESTIONE DRAG & DROP ALL'INTERNO DELLA TABELLA FILLABLE DEL GIOCATORE 1
-
-            fillableLi.ondragstart = (event) => event.dataTransfer.setData('data', event.target.id);
-            fillableLi.ondragover = (event) => event.preventDefault();
-            fillableLi.ondrop = (event) => {
-                let source = helper.doc(event.dataTransfer.getData('data'));
-                let destination = helper.doc(event.target.id);
-                let p = destination.parentNode;
-
-                if (source && destination && p) {
-                    let temp = destination.nextSibling;
-                    p.insertBefore(destination, source);
-                    p.insertBefore(source, temp);
-
-                    /*let data = event.dataTransfer.getData('data');
-                    event.target.appendChild(document.getElementById(data));*/
-
-
-                    let valuesId = Array.from(helper.doc('sortable').children).map(x => x.id);
-                    var now = new Date().getTime();
-                    let incrementedStep = ++puzzleGame.stepsNumber;
-                    helper.doc('stepPanel').innerHTML = incrementedStep;
-
-                    if (isImageSorted(valuesId)) {
-                        helper.doc('imageTitle').innerHTML = image.title;
-                        helper.doc('showEndGame').innerHTML = helper.doc('endGame').innerHTML;
-                        helper.doc('timerEnd').innerHTML = (parseInt((now - puzzleGame.startTime) / 1000, 10));
-                        helper.doc('stepEnd').innerHTML = incrementedStep;
-                        document.getElementById('sortable').setAttribute('style', 'display:none');
-                    }
-                }
-            };
+            // TODO: 1) Impostare connessione db per php aggiunta descrizione
+            //       2) Ricontrollare immagini sfalsate: integrare qui php4x4Backup.html
+            //       3) test schermi
 
             sortableLi.ondragstart = (event) => event.dataTransfer.setData('data', event.target.id);
             fillableLi.ondragover = (event) => event.preventDefault();
@@ -140,9 +105,6 @@ var puzzleGame = {
                 let p = destination.parentNode;
 
                 if (source && destination && p) {
-                    /*let temp = destination.nextSibling;
-                    p.insertBefore(destination, source);
-                    p.insertBefore(source, temp);*/
 
                     let data = event.dataTransfer.getData('data');
                     event.target.appendChild(document.getElementById(data));
@@ -154,27 +116,28 @@ var puzzleGame = {
                     helper.doc('stepPanel').innerHTML = incrementedStep;
 
                     if (isImageSorted(valuesId)) {
+                        helper.doc('winner').innerHTML = user1.toString();
                         helper.doc('imageTitle').innerHTML = image.title;
-                        helper.doc('showEndGame').innerHTML = helper.doc('endGame').innerHTML;
                         helper.doc('timerEnd').innerHTML = (parseInt((now - puzzleGame.startTime) / 1000, 10));
                         helper.doc('stepEnd').innerHTML = incrementedStep;
+                        helper.doc('showEndGame').innerHTML = helper.doc('endGame').innerHTML;
                         document.getElementById('sortable').setAttribute('style', 'display:none');
+
+                        for (var j=0; j<(gridSize*gridSize); j++){
+                            document.getElementById('F'.concat(j.toString())).setAttribute('draggable', 'false');
+                            document.getElementById('F'.concat(j.toString())).ondragstart = "return false;";
+                            document.getElementById('F'.concat(j.toString())).ondrop = "return false;";
+                            document.getElementById('S'.concat(j.toString())).setAttribute('draggable', 'false');
+                            document.getElementById('S'.concat(j.toString())).ondragstart = "return false;";
+                            document.getElementById('S'.concat(j.toString())).ondrop = "return false;";
+                        }
+
+                        document.getElementById('currentTimeBox').setAttribute('style', 'display:none');
+                        document.getElementById('numStepBox').setAttribute('style', 'display:none');
+                        document.getElementById('numStepBoxSecondPlayer').setAttribute('style', 'display:none');
                     }
                 }
             };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             // GESTIONE DRAG & DROP SECONDO GIOCATORE
 
@@ -186,9 +149,6 @@ var puzzleGame = {
                 let p = destination.parentNode;
 
                 if (source && destination && p) {
-                    /*let temp = destination.nextSibling;
-                    p.insertBefore(destination, source);
-                    p.insertBefore(source, temp);*/
 
                     let data = event.dataTransfer.getData('data');
                     event.target.appendChild(document.getElementById(data));
@@ -200,25 +160,28 @@ var puzzleGame = {
                     helper.doc('stepPanelSecondPlayer').innerHTML = incrementedStepSecondPlayer;
 
                     if (isImageSorted(valuesIdSecondPlayer)) {
+                        helper.doc('winner').innerHTML = user2.toString();
                         helper.doc('imageTitle').innerHTML = imageSecondPlayer.title;
-                        helper.doc('showEndGame').innerHTML = helper.doc('endGame').innerHTML;
                         helper.doc('timerEnd').innerHTML = (parseInt((now - puzzleGame.startTime) / 1000, 10));
                         helper.doc('stepEnd').innerHTML = incrementedStepSecondPlayer;
+                        helper.doc('showEndGame').innerHTML = helper.doc('endGame').innerHTML;
                         document.getElementById('sortableSecondPlayer').setAttribute('style', 'display:none');
+
+                        for (var k=0; k<(gridSize*gridSize); k++){
+                            document.getElementById('FS'.concat(k.toString())).setAttribute('draggable', 'false');
+                            document.getElementById('FS'.concat(k.toString())).ondragstart = "return false;";
+                            document.getElementById('FS'.concat(k.toString())).ondrop = "return false;";
+                            document.getElementById(k.toString()).setAttribute('draggable', 'false');
+                            document.getElementById(k.toString()).ondragstart = "return false;";
+                            document.getElementById(k.toString()).ondrop = "return false;";
+                        }
+
+                        document.getElementById('currentTimeBox').setAttribute('style', 'display:none');
+                        document.getElementById('numStepBox').setAttribute('style', 'display:none');
+                        document.getElementById('numStepBoxSecondPlayer').setAttribute('style', 'display:none');
                     }
                 }
             };
-
-
-
-
-
-
-
-
-
-
-
 
             sortableLi.setAttribute('dragstart', 'true');
             sortableLiSecondPlayer.setAttribute('dragstart', 'true');
