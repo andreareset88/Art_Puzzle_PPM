@@ -101,7 +101,11 @@
                 </span>
         </button>
 
-        <button id="changeThePhoto" type="button" class="btn" onclick="restart();">
+        <button id="startGame" type="button" class="btn" onclick="start();">
+            Start
+        </button>
+
+        <button id="restartGame" type="button" class="btn" onclick="restart();">
             Restart
         </button>
 
@@ -125,24 +129,69 @@
         </div>
     </div>
 
-
-    <script>
+    <script type="text/javascript">
         var images = [
             {src: 'images/David-Resized.jpg', title: 'David di Michelangelo'},
             {src: 'images/statue-of-libertyResized.jpg', title: 'Statua della Libertà'},
-            {src: 'images/napoleone-Resized.jpg', title: 'Napoleone valica le Alpi'}
+            {src: 'images/napoleone-Resized.jpg', title: 'Napoleone valica le Alpi'},
+            {src: 'images/Urlo-resized.jpg', title: 'Urlo'},
+            {src: 'images/Viandante-sul-mare-resized.jpg', title: 'Viandante sul mare'},
+            {src: 'images/bacio-hayez-resized.jpg', title: 'Il bacio (di Hayez)'},
+            {src: 'images/il-bacio-di-klimt-resized.jpg', title: 'Il bacio (di Klimt)'},
+            {src: 'images/notte-stellata-resized.jpg', title: 'Notte stellata'},
+            {src: 'images/ragazza-orecchino-resized.jpg', title: 'La Ragazza col Turbante'}
         ];
 
         window.onload = function () {
             puzzleGame.startGame(images, 4, "<?php echo strtoupper($_POST['user1']) ?>", "<?php echo strtoupper($_POST['user2']) ?>");
+
+            helper.doc('currentTimeBox').style.display = 'none';
+            helper.doc('numStepBox').style.display = 'none';
+            helper.doc('numStepBoxSecondPlayer').style.display = 'none';
+
+            for (var j=0; j<16; j++){
+                document.getElementById('S'.concat(j.toString())).setAttribute('draggable', 'false');
+                document.getElementById('S'.concat(j.toString())).ondragstart = "return false;";
+                document.getElementById('S'.concat(j.toString())).ondrop = "return false;";
+                document.getElementById(j.toString()).setAttribute('draggable', 'false');
+                document.getElementById(j.toString()).ondragstart = "return false;";
+                document.getElementById(j.toString()).ondrop = "return false;";
+            }
         }
 
-
         function start() {
+
+            helper.doc('currentTimeBox').style.display = '';
+            helper.doc('currentTimeBox').style.textAlign = 'center';
+            helper.doc('numStepBox').style.display = '';
+            helper.doc('numStepBox').style.textAlign = 'center';
+            helper.doc('numStepBoxSecondPlayer').style.display = '';
+            helper.doc('numStepBoxSecondPlayer').style.textAlign = 'center';
+
+            for (var j=0; j<16; j++){
+                document.getElementById('S'.concat(j.toString())).setAttribute('draggable', 'true');
+                document.getElementById('S'.concat(j.toString())).ondragstart = "return true;";
+                document.getElementById('S'.concat(j.toString())).ondrop = "return true;";
+                document.getElementById(j.toString()).setAttribute('draggable', 'true');
+                document.getElementById(j.toString()).ondragstart = "return true;";
+                document.getElementById(j.toString()).ondrop = "return true;";
+            }
+
             puzzleGame.startGame(images, 4);
         }
 
         function restart() {
+            helper.doc('showEndGame').style.display = 'none';
+            helper.doc('sortable').style.display = 'inline';
+            helper.doc('stepPanel').innerHTML = 0;
+            helper.doc('stepPanelSecondPlayer').innerHTML = 0;
+            helper.doc('currentTimeBox').style.display = '';
+            helper.doc('currentTimeBox').style.textAlign = 'center';
+            helper.doc('numStepBox').style.display = '';
+            helper.doc('numStepBox').style.textAlign = 'center';
+            helper.doc('numStepBoxSecondPlayer').style.display = '';
+            helper.doc('numStepBoxSecondPlayer').style.textAlign = 'center';
+
             start();
         }
 

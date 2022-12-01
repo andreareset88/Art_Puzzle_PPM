@@ -93,9 +93,13 @@ var puzzleGame = {
 
             sortableLiSecondPlayer.setAttribute('draggable', 'true');
 
-            // TODO: 1) Impostare connessione db per php aggiunta descrizione
+            // TODO:
+            //       1) Impostare connessione db per php aggiunta descrizione
             //       2) Ricontrollare immagini sfalsate: integrare qui php4x4Backup.html
             //       3) test schermi
+            //       4) Pulsante start in mainPage.php
+            //       5) Fare match al meglio di 3 (se possibile), quindi una volta che un giocatore
+            //          arriva a 2 si inizia una nuova partita
 
             sortableLi.ondragstart = (event) => event.dataTransfer.setData('data', event.target.id);
             fillableLi.ondragover = (event) => event.preventDefault();
